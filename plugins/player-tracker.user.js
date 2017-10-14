@@ -113,11 +113,13 @@ window.plugin.playerTracker.zoomListener = function() {
   }
 }
 
-window.plugin.playerTracker.getEventLimit = function() // (Ray) renamed to use renamed variable
+window.plugin.playerTracker.getEventLimit = function() { // (Ray) renamed to use renamed variable
     return new Date().getTime() - window.PLAYER_TRACKER_MAX_EVENT_TIME;
+}
 
-window.plugin.playerTracker.getFieldLimit = function() // (Ray) separate limit for fields
+window.plugin.playerTracker.getFieldLimit = function() { // (Ray) separate limit for fields
     return new Date().getTime() - window.PLAYER_TRACKER_MAX_FIELD_TIME;
+}
 
 window.plugin.playerTracker.discardOldData = function() {
     // (Ray) altered to remove old fields as well as old events
