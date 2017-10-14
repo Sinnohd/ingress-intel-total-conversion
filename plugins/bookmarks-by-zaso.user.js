@@ -267,18 +267,15 @@
       }
 
       
+      // Print link with portal locations 
+      text = "https://www.google.com/maps/dir/Current+Location/";
+      var i;
+      for (i = 0; i < alllats.length; i++) {
+        text += alllats[i] + "/";
+      }
+      
+      elementTemp += '</li><a target="_blank" href="'+text+'">Google Maps Route</a></ul>';
 
-	  // Print link with portal locations 
-            text = "https://www.google.com/maps/dir/Current+Location/";
-            var i;
-            for (i = 0; i < alllats.length; i++) {
-                text += alllats[i] + "/";
-            }
-            
-            elementTemp += '</li><a target="_blank" href="'+text+'">MapIt!</a></ul>';
-
-	  
-	  
       // Add folder 'Others' in last position
       if(idFolders != window.plugin.bookmarks.KEY_OTHER_BKMRK) { element += elementTemp; }
       else{ elementExc = elementTemp; }
