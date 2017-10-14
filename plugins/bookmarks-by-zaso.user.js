@@ -489,6 +489,7 @@
     dialog({
       html: window.plugin.bookmarks.dialogLoadListFolders('bookmarksDialogMobileSort', 'window.plugin.bookmarks.mobileSort', true, type),
       dialogClass: 'ui-dialog-bkmrksSet-copy',
+      id: 'plugin-bookmarks-move-bookmark',
       title: 'Bookmarks - Move Bookmark'
     });
   }
@@ -647,6 +648,7 @@
     dialog({
       html: plugin.bookmarks.htmlSetbox,
       dialogClass: 'ui-dialog-bkmrksSet',
+      id: 'plugin-bookmarks-options',
       title: 'Bookmarks Options'
     });
 
@@ -665,6 +667,7 @@
       dialog({
         html: '<p><a onclick="$(\'.ui-dialog-bkmrksSet-copy textarea\').select();">Select all</a> and press CTRL+C to copy it.</p><textarea readonly>'+localStorage[window.plugin.bookmarks.KEY_STORAGE]+'</textarea>',
         dialogClass: 'ui-dialog-bkmrksSet-copy',
+        id: 'plugin-bookmarks-export',
         title: 'Bookmarks Export'
       });
     }
@@ -882,6 +885,7 @@
     dialog({
       html: window.plugin.bookmarks.dialogLoadListFolders('bookmarksDialogRenameF', 'window.plugin.bookmarks.renameFolder', false, 0),
       dialogClass: 'ui-dialog-bkmrksSet-copy',
+      id: 'plugin-bookmarks-rename-folder',
       title: 'Bookmarks Rename Folder'
     });
   }
@@ -893,6 +897,7 @@
     dialog({
       html:window.plugin.bookmarks.dialogLoadList,
       dialogClass:'ui-dialog-autodrawer',
+      id: 'plugin-bookmarks-move-bookmark',
       title:'Bookmarks - Auto Draw',
       buttons:{
         'DRAW': function() {
