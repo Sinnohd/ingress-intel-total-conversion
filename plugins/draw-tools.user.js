@@ -2,7 +2,7 @@
 // @id             iitc-plugin-draw-tools@breunigs
 // @name           IITC plugin: draw tools
 // @category       Layer
-// @version        0.7.0.@@DATETIMEVERSION@@
+// @version        0.8.0.@@DATETIMEVERSION@@
 // @namespace      https://github.com/jonatkins/ingress-intel-total-conversion
 // @updateURL      @@UPDATEURL@@
 // @downloadURL    @@DOWNLOADURL@@
@@ -25,6 +25,11 @@
 
 // use own namespace for plugin
 window.plugin.drawTools = function() {};
+
+window.plugin.drawTools.setup = function() {
+	window.plugin.drawTools.currentColor = localStorage.getItem(plugin_info.pluginId + '-Color') || '#a24ac3';
+	window.plugin.drawTools.loadExternals();
+}
 
 window.plugin.drawTools.loadExternals = function() {
   try { console.log('Loading leaflet.draw JS now'); } catch(e) {}
@@ -57,7 +62,6 @@ window.plugin.drawTools.getMarkerIcon = function(color) {
   });
 }
 
-window.plugin.drawTools.currentColor = '#a24ac3';
 window.plugin.drawTools.markerTemplate = '@@INCLUDESTRING:images/marker-icon.svg.template@@';
 
 window.plugin.drawTools.setOptions = function() {
@@ -103,6 +107,10 @@ window.plugin.drawTools.setDrawColor = function(color) {
     circle:   { shapeOptions: plugin.drawTools.polygonOptions },
     marker:   { icon:         plugin.drawTools.markerOptions.icon },
   });
+
+  // save color in localStorage
+  localStorage.setItem(plugin_info.pluginId + '-Color',color);
+  console.log(plugin_info.pluginId + ': Color ' + color + ' saved');
 }
 
 // renders the draw control buttons in the top left corner
@@ -698,8 +706,7 @@ window.plugin.drawTools.boot = function() {
 
 }
 
-
-var setup =  window.plugin.drawTools.loadExternals;
+var setup =  window.plugin.drawTools.setup;
 
 // PLUGIN END //////////////////////////////////////////////////////////
 
