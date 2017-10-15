@@ -37,12 +37,18 @@ except ImportError:
 
 buildName = defaultBuild
 
+
 # build name from command line
+<<<<<<< HEAD
 if len(sys.argv) == 2:  # argv[0] = program, argv[1] = buildname, len=2
+=======
+# argv[0] = program, argv[1] = buildname, len=2
+if len(sys.argv) == 2:
+>>>>>>> p1072
     buildName = sys.argv[1]
 
 
-if buildName is None or not buildName in buildSettings:
+if buildName is None or buildName not in buildSettings:
     print ("Usage: build.py buildname")
     print (" available build names: %s" % ', '.join(buildSettings.keys()))
     sys.exit(1)
@@ -53,8 +59,15 @@ settings = buildSettings[buildName]
 
 utcTime = time.gmtime()
 buildDate = time.strftime('%Y-%m-%d-%H%M%S', utcTime)
+<<<<<<< HEAD
 # userscripts have specific specifications for version numbers - the above date format does not match
 dateTimeVersion = time.strftime('%Y%m%d.', utcTime) + time.strftime('%H%M%S', utcTime).lstrip('0')
+=======
+# Userscripts have specific specifications for version numbers.
+# The above date format doesn't match
+dateTimeVersion = time.strftime('%Y%m%d.', utcTime) \
+    + time.strftime('%H%M%S', utcTime).lstrip('0')
+>>>>>>> p1072
 
 # extract required values from the settings entry
 resourceUrlBase = settings.get('resourceUrlBase')
@@ -63,10 +76,13 @@ buildMobile = settings.get('buildMobile')
 gradleOptions = settings.get('gradleOptions','')
 gradleBuildFile = settings.get('gradleBuildFile', 'mobile/build.gradle');
 
-
-# plugin wrapper code snippets. handled as macros, to ensure that
-# 1. indentation caused by the "function wrapper()" doesn't apply to the plugin code body
-# 2. the wrapper is formatted correctly for removal by the IITC Mobile android app
+"""
+    Plugin wrapper code snippets. handled as macros, to ensure that:
+        1. indentation caused by the "function wrapper()" doesn't
+           apply to the plugin code body
+        2. the wrapper is formatted correctly for removal by the
+           IITC Mobile android app
+"""
 pluginWrapperStart = """
 function wrapper(plugin_info) {
 // ensure plugin framework is there, even if iitc is not yet loaded
@@ -99,6 +115,7 @@ script.appendChild(document.createTextNode('('+ wrapper +')('+JSON.stringify(inf
 
 
 def readfile(fn):
+    """Read a Unicode file."""
     with io.open(fn, 'Ur', encoding='utf8') as f:
         return f.read()
 
@@ -115,7 +132,8 @@ def loaderRaw(var):
 
 def loaderMD(var):
     fn = var.group(1)
-    # use different MD.dat's for python 2 vs 3 incase user switches versions, as they are not compatible
+    # use different MD.dat's for python 2 vs 3 in case the user
+    # switches versions, as they are not compatible.
     db = shelve.open('build/MDv' + str(sys.version_info[0]) + '.dat')
     if 'files' in db:
         files = db['files']
@@ -125,7 +143,8 @@ def loaderMD(var):
     filemd5 = hashlib.md5(file.encode('utf8')).hexdigest()
     # check if file has already been parsed by the github api
     if fn in files and filemd5 in files[fn]:
-        # use the stored copy if nothing has changed to avoid hitting the api more then the 60/hour when not signed in
+        # use the stored copy if nothing has changed to avoid hitting
+        # the api more then the 60/hour when not signed in
         db.close()
         return files[fn][filemd5]
     else:
@@ -133,7 +152,9 @@ def loaderMD(var):
         payload = {'text': file, 'mode': 'markdown'}
         headers = {'Content-Type': 'application/json'}
         req = urllib2.Request(url, json.dumps(payload).encode('utf8'), headers)
-        md = urllib2.urlopen(req).read().decode('utf8').replace('\n', '\\n').replace('\'', '\\\'')
+        # splitting up the pipeline into 2 lines
+        md = urllib2.urlopen(req).read()
+        md = md.decode('utf8').replace('\n', '\\n').replace('\'', '\\\'')
         files[fn] = {}
         files[fn][filemd5] = md
         db['files'] = files
@@ -151,7 +172,8 @@ def loadCode(ignore):
 
 
 def extractUserScriptMeta(var):
-    m = re.search(r"//[ \t]*==UserScript==\n.*?//[ \t]*==/UserScript==\n", var, re.MULTILINE | re.DOTALL)
+    m = re.search(r"//[ \t]*==UserScript==\n.*?//[ \t]*==/UserScript==\n",
+                  var, re.MULTILINE | re.DOTALL)
     return m.group(0)
 
 
@@ -163,7 +185,8 @@ def doReplacements(script, updateUrl, downloadUrl, pluginName=None):
     script = script.replace('@@PLUGINEND@@', pluginWrapperEnd)
 
     script = re.sub('@@INCLUDERAW:([0-9a-zA-Z_./-]+)@@', loaderRaw, script)
-    script = re.sub('@@INCLUDESTRING:([0-9a-zA-Z_./-]+)@@', loaderString, script)
+    script = re.sub('@@INCLUDESTRING:([0-9a-zA-Z_./-]+)@@',
+                    loaderString, script)
     script = re.sub('@@INCLUDEMD:([0-9a-zA-Z_./-]+)@@', loaderMD, script)
     script = re.sub('@@INCLUDEIMAGE:([0-9a-zA-Z_./-]+)@@', loaderImage, script)
 
@@ -188,8 +211,9 @@ def doReplacements(script, updateUrl, downloadUrl, pluginName=None):
 
 
 def saveScriptAndMeta(script, ourDir, filename, oldDir=None):
-    # TODO: if oldDir is set, compare files. if only data/time-based version strings are different
-    # copy from there instead of saving a new file
+    # TODO: If oldDir is set, compare files. If only data/time-based
+    # version strings are different copy from there instead of saving
+    # a new file
 
     fn = os.path.join(outDir, filename)
     with io.open(fn, 'w', encoding='utf8') as f:
@@ -219,7 +243,8 @@ if os.path.exists(outDir):
 # copy the 'dist' folder, if it exists
 if os.path.exists('dist'):
     # this creates the target directory (and any missing parent dirs)
-    # FIXME? replace with manual copy, and any .css and .js files are parsed for replacement tokens?
+    # FIXME? replace with manual copy, and any .css and .js files are
+    #     parsed for replacement tokens?
     shutil.copytree('dist', outDir)
 else:
     # no 'dist' folder - so create an empty target folder
@@ -234,8 +259,10 @@ for cmd in settings.get('preBuild', []):
 # load main.js, parse, and create main total-conversion-build.user.js
 main = readfile('main.js')
 
-downloadUrl = distUrlBase and distUrlBase + '/total-conversion-build.user.js' or 'none'
-updateUrl = distUrlBase and distUrlBase + '/total-conversion-build.meta.js' or 'none'
+downloadUrl = distUrlBase and distUrlBase + \
+    '/total-conversion-build.user.js' or 'none'
+updateUrl = distUrlBase and distUrlBase + \
+    '/total-conversion-build.meta.js' or 'none'
 main = doReplacements(main, downloadUrl=downloadUrl, updateUrl=updateUrl)
 
 saveScriptAndMeta(main, outDir, 'total-conversion-build.user.js', oldDir)
@@ -285,13 +312,16 @@ if buildMobile:
     except:
         pass
 
-    shutil.copytree(
-        os.path.join(outDir, "plugins"),
-        "mobile/assets/plugins",
-        # do not include desktop-only plugins to mobile assets
-        ignore=shutil.ignore_patterns(
-            '*.meta.js', 'force-https*', 'privacy-view*', 'speech-search*',
-            'basemap-cloudmade*', 'scroll-wheel-zoom-disable*'))
+    shutil.copytree(os.path.join(outDir, "plugins"), "mobile/assets/plugins",
+                    # do not include desktop-only plugins to mobile assets
+                    ignore=shutil.ignore_patterns('*.meta.js', 'force-https*',
+                                                  'privacy-view*',
+                                                  'speech-search*',
+                                                  'basemap-cloudmade*',
+                                                  'scroll-wheel-zoom-disable*'
+                                                  )
+                    )
+
 
     # copy the IITC script into the mobile-ios folder. create the folder if needed
     try:
@@ -318,10 +348,11 @@ if buildMobile:
         retcode = os.system("mobile/gradlew %s -b %s %s" % (gradleOptions, gradleBuildFile, buildAction))
 
         if retcode != 0:
-            print ("Error: mobile app failed to build. gradlew returned %d" % retcode)
-            exit(1) # ant may return 256, but python seems to allow only values <256
+            print ("Error: mobile app failed to build. ant returned %d" % retcode)
+            # ant may return 256, but python seems to allow only values <256
+            exit(1)
         else:
-            shutil.copy("mobile/app/build/outputs/apk/app-%s.apk" % buildMobile, os.path.join(outDir,"IITC_Mobile-%s.apk" % buildMobile) )
+            shutil.copy("mobile/bin/IITC_Mobile-%s.apk" % buildMobile, os.path.join(outDir, "IITC_Mobile-%s.apk" % buildMobile))
 
 
 # run any postBuild commands
