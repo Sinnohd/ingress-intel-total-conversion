@@ -105,7 +105,7 @@ window.dialog = function(options) {
     autoOpen: false,
     modal: false,
     draggable: true,
-    closeText: '&nbsp;',
+    closeText: '',
     title: '',
     buttons: $.extend(options.buttons,{
       'OK': function() {
