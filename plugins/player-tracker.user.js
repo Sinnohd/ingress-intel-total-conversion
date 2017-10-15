@@ -26,7 +26,8 @@ window.PLAYER_TRACKER_MAX_FIELD_TIME = 6*60*60*1000; // in milliseconds  (Ray)  
 window.PLAYER_TRACKER_MAX_EVENT_DISPLAY = 10;        // (Ray) number of event lines to display in popup
 window.PLAYER_TRACKER_MAX_FIELD_DISPLAY = 20;        // (Ray) number of field lines to display in popupwindow.PLAYER_TRACKER_MIN_ZOOM = 9;
 window.PLAYER_TRACKER_MIN_OPACITY = 0.3;
-window.PLAYER_TRACKER_LINE_COLOUR = '#FF00FD';
+window.PLAYER_TRACKER_RES_LINE_COLOUR = '#FF00FD';
+window.PLAYER_TRACKER_ENL_LINE_COLOUR = '#45A000';
 
 
 // use own namespace for plugin
@@ -607,10 +608,10 @@ window.plugin.playerTracker.drawData = function() {
 
     var opts = {
       weight: 2-0.25*i,
-      color: PLAYER_TRACKER_LINE_COLOUR,
+      color: PLAYER_TRACKER_ENL_LINE_COLOUR,
       clickable: false,
       opacity: 1-0.2*i,
-      dashArray: "5,8"
+      dashArray: "5,8,1,3"
     };
 
     $.each(polyLine,function(ind,poly) {
@@ -622,10 +623,10 @@ window.plugin.playerTracker.drawData = function() {
 
     var opts = {
       weight: 2-0.25*i,
-      color: PLAYER_TRACKER_LINE_COLOUR,
+      color: PLAYER_TRACKER_RES_LINE_COLOUR,
       clickable: false,
       opacity: 1-0.2*i,
-      dashArray: "5,8"
+      dashArray: "5,8,1,3"
     };
 
     $.each(polyLine, function(ind,poly) {
