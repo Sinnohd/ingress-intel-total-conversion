@@ -1,30 +1,21 @@
 // ==UserScript==
-// @id             force-https@altertobi
-// @name           IITC plugin: force www in hostname
+// @id             force-www
+// @name           IITC plugin: force ingress.com/intel to load https://www.ingress.com/intel
 // @category       Tweaks
 // @version        0.1.0.@@DATETIMEVERSION@@
 // @namespace      https://github.com/jonatkins/ingress-intel-total-conversion
 // @updateURL      @@UPDATEURL@@
 // @downloadURL    @@DOWNLOADURL@@
-// @description    [@@BUILDNAME@@-@@BUILDDATE@@] Force force www in hostname for intel because of localStorage
-// @include        https://*.ingress.com/intel*
-// @include        http://*.ingress.com/intel*
-// @match          https://*.ingress.com/intel*
-// @match          http://*.ingress.com/intel*
-// @include        https://*.ingress.com/mission/*
-// @include        http://*.ingress.com/mission/*
-// @match          https://*.ingress.com/mission/*
-// @match          http://*.ingress.com/mission/*
+// @description    [@@BUILDNAME@@-@@BUILDDATE@@] Force intel map to load from www.ingress.com. If the intel map is accessed via ingress.com, it redirects to the www version.
+// @include        https://ingress.com/intel
+// @include        http://ingress.com/intel
+// @match          https://ingress.com/intel
+// @match          http://ingress.com/intel
 // @grant          none
 // ==/UserScript==
-
-
-// this is a fix for #1226
 
 //NOTE: plugin authors - due to the unique requirements of this plugin, it doesn't use the standard IITC
 //plugin architecture. do NOT use it as a template for other plugins
 
-if(window.location.host !== 'www.ingress.com') {
-  window.location.host = 'www.ingress.com';
-  throw('Need to load WWW host');
-}
+window.location = 'https://www.ingress.com/intel';
+throw('Need to load ' + window.location + '.');
