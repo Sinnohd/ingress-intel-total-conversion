@@ -1121,7 +1121,7 @@ td + td {
   font-size:11px;
   background-color:#0E3C46;
   color:#ffce00;
-  
+
 }
 
 
@@ -1256,6 +1256,23 @@ g.checkpoint:hover circle {
 	text-overflow: ellipsis;
 	vertical-align: text-bottom;
 	width: 100%;
+}
+
+.cellscore #overview {
+  width: 100%;
+}
+
+.cellscore #overview td {
+  white-space: nowrap;
+  width: 1%;
+  text-align: right;
+}
+
+.cellscore #overview th {
+  white-space: nowrap;
+  width: 1%;
+  text-align: left;
+  padding-left: 4px;
 }
 
 /* tabs */
