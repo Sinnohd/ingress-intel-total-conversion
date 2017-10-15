@@ -39,12 +39,8 @@ buildName = defaultBuild
 
 
 # build name from command line
-<<<<<<< HEAD
-if len(sys.argv) == 2:  # argv[0] = program, argv[1] = buildname, len=2
-=======
 # argv[0] = program, argv[1] = buildname, len=2
 if len(sys.argv) == 2:
->>>>>>> p1072
     buildName = sys.argv[1]
 
 
@@ -59,15 +55,10 @@ settings = buildSettings[buildName]
 
 utcTime = time.gmtime()
 buildDate = time.strftime('%Y-%m-%d-%H%M%S', utcTime)
-<<<<<<< HEAD
-# userscripts have specific specifications for version numbers - the above date format does not match
-dateTimeVersion = time.strftime('%Y%m%d.', utcTime) + time.strftime('%H%M%S', utcTime).lstrip('0')
-=======
 # Userscripts have specific specifications for version numbers.
 # The above date format doesn't match
 dateTimeVersion = time.strftime('%Y%m%d.', utcTime) \
     + time.strftime('%H%M%S', utcTime).lstrip('0')
->>>>>>> p1072
 
 # extract required values from the settings entry
 resourceUrlBase = settings.get('resourceUrlBase')
