@@ -107,11 +107,11 @@ window.dialog = function(options) {
     draggable: true,
     closeText: '',
     title: '',
-    buttons: $.extend(options.buttons,{
+    buttons: $.extend({
       'OK': function() {
         $(this).dialog('close');
       },
-    }),
+    },options.buttons),
     open: function() {
       var titlebar = $(this).closest('.ui-dialog').find('.ui-dialog-titlebar');
       titlebar.find('.ui-dialog-title').addClass('ui-dialog-title-active');
