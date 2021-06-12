@@ -1,3 +1,8 @@
+---
+This repo is archived and won't be maintained any longer.  
+Please visit https://github.com/IITC-CE/ingress-intel-total-conversion/ for a maintained version of IITC.
+---
+
 ingress intel total conversion (IITC)
 =====================================
 
